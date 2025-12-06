@@ -1,0 +1,315 @@
+# MAFAULDA Predictive Maintenance System Configuration
+# Complete configuration for reproducible ML pipeline
+
+project:
+  name: "MAFAULDA Predictive Maintenance"
+  version: "1.0.0"
+  random_seed: 42
+  
+paths:
+  raw_data: "data/raw"
+  processed_data: "data/processed"
+  splits: "data/splits"
+  models: "models/trained_models"
+  scalers: "models/scalers"
+  performance: "models/performance"
+  logs: "logs"
+  dashboard_uploads: "dashboard/uploads"
+
+data:
+  # Data splitting ratios
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  
+  # Stratification settings
+  stratify_by_fault_type: true
+  min_samples_per_class: 5  # Minimum CSV files per fault class
+  
+  # CSV processing
+  expected_rows_per_csv: 25000
+  sensor_columns: 8
+  
+  # Sensor names for reference
+  sensor_names:
+    - "tachometer"
+    - "underhang_axial"
+    - "underhang_radial"
+    - "underhang_tangential"
+    - "overhang_axial"
+    - "overhang_radial"
+    - "overhang_tangential"
+    - "microphone"
+
+feature_engineering:
+  # Parallel processing
+  n_jobs: -1  # Use all CPU cores
+  chunk_size: 5000  # Process CSV in chunks to save memory
+  batch_size: 50  # Process 50 CSV files at a time
+  
+  # Time-domain features (per sensor)
+  time_domain:
+    enabled: true
+    features:
+      - "mean"
+      - "std"
+      - "min"
+      - "max"
+      - "range"
+      - "iqr"
+      - "skewness"
+      - "kurtosis"
+      - "rms"
+      - "peak_to_peak"
+      - "crest_factor"
+      - "clearance_factor"
+      - "shape_factor"
+      - "impulse_factor"
+  
+  # Frequency-domain features (FFT)
+  frequency_domain:
+    enabled: true
+    sampling_rate: 50000  # Hz (adjust based on actual data)
+    fft_size: 4096
+    features:
+      - "dominant_frequency"
+      - "dominant_amplitude"
+      - "spectral_entropy"
+      - "spectral_centroid"
+      - "spectral_rolloff"
+      - "spectral_bandwidth"
+      - "power_spectral_density"
+    
+    # Bearing characteristic frequencies
+    bearing_frequencies:
+      enabled: true
+      # Typical bearing specifications (adjust if you get actual values)
+      num_balls: 8
+      ball_diameter: 7.94  # mm
+      pitch_diameter: 39.04  # mm
+      contact_angle: 0  # degrees
+      rpm_column: 0  # Tachometer column
+      tolerance: 0.02  # ±2% frequency band
+  
+  # Time-frequency features (Wavelets)
+  time_frequency:
+    enabled: true
+    wavelet_type: "db4"  # Daubechies 4
+    decomposition_level: 5
+    features:
+      - "wavelet_energy"
+      - "wavelet_entropy"
+      - "wavelet_std"
+  
+  # Feature selection
+  feature_selection:
+    enabled: true
+    method: "mutual_info"  # Options: mutual_info, f_classif, rfe
+    n_features: 100  # Keep top 100 features
+    correlation_threshold: 0.95  # Remove features with correlation > 0.95
+  
+  # Scaling
+  scaling_method: "robust"  # Options: standard, minmax, robust
+
+models:
+  # Top 3 performers + CNN + Ensemble
+  
+  random_forest:
+    enabled: true
+    hyperparameters:
+      n_estimators: [100, 200, 300]
+      max_depth: [10, 20, 30, null]
+      min_samples_split: [2, 5, 10]
+      min_samples_leaf: [1, 2, 4]
+      max_features: ["sqrt", "log2"]
+      class_weight: ["balanced"]
+    cv_folds: 5
+    n_iter: 50  # Random search iterations
+  
+  xgboost:
+    enabled: true
+    hyperparameters:
+      n_estimators: [100, 200, 300]
+      max_depth: [3, 5, 7, 9]
+      learning_rate: [0.01, 0.05, 0.1, 0.2]
+      subsample: [0.6, 0.8, 1.0]
+      colsample_bytree: [0.6, 0.8, 1.0]
+      reg_alpha: [0, 0.1, 1]
+      reg_lambda: [1, 5, 10]
+      scale_pos_weight: "auto"  # Handle class imbalance
+    cv_folds: 5
+    early_stopping_rounds: 50
+    n_iter: 50
+    use_gpu: true  # Enable GPU acceleration
+  
+  lightgbm:
+    enabled: true
+    hyperparameters:
+      n_estimators: [100, 200, 300]
+      max_depth: [3, 5, 7, 9]
+      learning_rate: [0.01, 0.05, 0.1, 0.2]
+      num_leaves: [15, 31, 63, 127]
+      subsample: [0.6, 0.8, 1.0]
+      colsample_bytree: [0.6, 0.8, 1.0]
+      reg_alpha: [0, 0.1, 1]
+      reg_lambda: [1, 5, 10]
+      class_weight: "balanced"
+    cv_folds: 5
+    early_stopping_rounds: 50
+    n_iter: 50
+    use_gpu: true
+  
+  cnn_1d:
+    enabled: true
+    # Uses raw signals, not extracted features
+    architecture:
+      input_length: 25000  # Full signal length
+      n_sensors: 8
+      
+      conv_layers:
+        - filters: 64
+          kernel_size: 64
+          strides: 4
+          activation: "relu"
+          batch_norm: true
+          dropout: 0.3
+        
+        - filters: 128
+          kernel_size: 32
+          strides: 2
+          activation: "relu"
+          batch_norm: true
+          dropout: 0.3
+        
+        - filters: 256
+          kernel_size: 16
+          strides: 2
+          activation: "relu"
+          batch_norm: true
+          dropout: 0.4
+      
+      global_pooling: "avg"  # Global average pooling
+      
+      dense_layers:
+        - units: 256
+          activation: "relu"
+          dropout: 0.5
+          l2_reg: 0.001
+        
+        - units: 128
+          activation: "relu"
+          dropout: 0.4
+          l2_reg: 0.001
+    
+    training:
+      batch_size: 32
+      epochs: 100
+      learning_rate: 0.001
+      optimizer: "adam"
+      early_stopping_patience: 15
+      reduce_lr_patience: 7
+      reduce_lr_factor: 0.5
+      use_gpu: true
+  
+  ensemble:
+    enabled: true
+    # Combines top performers
+    base_models:
+      - "xgboost"
+      - "lightgbm"
+      - "random_forest"
+    voting: "soft"  # Soft voting (probability averaging)
+    weights: "auto"  # Auto-weight by validation performance
+
+training:
+  # Cross-validation
+  cv_strategy: "stratified_kfold"
+  cv_folds: 5
+  
+  # Hyperparameter tuning
+  tuning_method: "random_search"  # Options: grid_search, random_search, bayesian
+  scoring_metric: "f1_macro"  # Primary metric for optimization
+  
+  # Early stopping criteria
+  overfitting_threshold: 0.05  # Max acceptable train-val accuracy gap
+  
+  # Resource management
+  max_training_time_hours: 6
+  checkpoint_frequency: 10  # Save checkpoint every N minutes
+  
+  # Reproducibility
+  deterministic: true
+
+evaluation:
+  # Metrics to compute
+  metrics:
+    - "accuracy"
+    - "precision_macro"
+    - "precision_micro"
+    - "precision_weighted"
+    - "recall_macro"
+    - "recall_micro"
+    - "recall_weighted"
+    - "f1_macro"
+    - "f1_micro"
+    - "f1_weighted"
+    - "roc_auc_ovr"  # One-vs-rest ROC-AUC
+    - "confusion_matrix"
+  
+  # Visualization
+  plot_confusion_matrix: true
+  plot_roc_curves: true
+  plot_learning_curves: true
+  plot_feature_importance: true
+  
+  # Business metrics
+  cost_matrix:
+    # Cost of misclassification (adjust based on business needs)
+    false_negative_cost: 10  # Missing a fault is expensive
+    false_positive_cost: 1   # Unnecessary maintenance is less costly
+
+dashboard:
+  # Streamlit configuration
+  theme:
+    primary_color: "#3B82F6"      # Blue
+    secondary_color: "#1E3A8A"    # Dark blue
+    background_color: "#FFFFFF"   # White
+    secondary_background: "#F9FAFB"  # Light gray
+    text_color: "#111827"         # Near black
+    font: "Inter"
+  
+  # Features
+  max_upload_size_mb: 100
+  prediction_confidence_threshold: 0.8  # Flag low-confidence predictions
+  enable_shap_explanations: true
+  enable_pdf_export: true
+  
+  # Real-time prediction
+  auto_refresh: false
+  cache_ttl_seconds: 3600
+
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/mafaulda_pipeline.log"
+  console: true
+
+# GPU Configuration
+gpu:
+  enabled: true
+  device: "cuda:0"  # Use first GPU
+  memory_growth: true  # TensorFlow memory growth
+  mixed_precision: false  # Enable for faster training (may reduce accuracy)
+
+# Fault class mapping (derived from folder structure)
+fault_classes:
+  normal: 0
+  horizontal_misalignment: 1
+  vertical_misalignment: 2
+  imbalance: 3
+  underhang_ball_fault: 4
+  underhang_cage_fault: 5
+  underhang_outer_race: 6
+  overhang_ball_fault: 7
+  overhang_cage_fault: 8
+  overhang_outer_race: 9

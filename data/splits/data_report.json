@@ -1,0 +1,44 @@
+{
+  "dataset_info": {
+    "total_files": 1951,
+    "total_classes": 10,
+    "class_distribution": {
+      "horizontal_misalignment": 197,
+      "imbalance": 333,
+      "normal": 49,
+      "overhang_ball_fault": 137,
+      "overhang_cage_fault": 188,
+      "overhang_outer_race": 188,
+      "underhang_ball_fault": 186,
+      "underhang_cage_fault": 188,
+      "underhang_outer_race": 184,
+      "vertical_misalignment": 301
+    }
+  },
+  "splits": {
+    "train": {
+      "num_files": 1365,
+      "percentage": 69.96412096360841
+    },
+    "validation": {
+      "num_files": 293,
+      "percentage": 15.017939518195798
+    },
+    "test": {
+      "num_files": 293,
+      "percentage": 15.017939518195798
+    }
+  },
+  "class_weights": {
+    "6": 1.058139534883721,
+    "9": 1.0419847328244274,
+    "2": 0.6469194312796208,
+    "1": 0.9891304347826086,
+    "5": 1.0340909090909092,
+    "3": 0.5858369098712446,
+    "4": 1.05,
+    "7": 1.421875,
+    "0": 4.014705882352941,
+    "8": 1.0419847328244274
+  }
+}

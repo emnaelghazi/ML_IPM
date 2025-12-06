@@ -1,0 +1,1201 @@
+2025-12-06 09:40:52,893 - root - INFO - Configuration loaded from config.yaml
+2025-12-06 09:40:52,896 - root - INFO - Logging to logs\training_pipeline_20251206_094052.log
+2025-12-06 09:40:54,048 - root - INFO - TensorFlow random seed set to 42
+2025-12-06 09:40:55,853 - root - INFO - PyTorch random seed set to 42
+2025-12-06 09:40:55,853 - root - INFO - Reproducibility setup complete (seed=42)
+2025-12-06 09:40:55,853 - root - WARNING - No TensorFlow GPUs found
+2025-12-06 09:40:55,853 - root - WARNING - No PyTorch CUDA devices found
+2025-12-06 09:40:55,853 - root - INFO - Created directory: data\raw
+2025-12-06 09:40:55,853 - root - INFO - Created directory: data\processed
+2025-12-06 09:40:55,853 - root - INFO - Created directory: data\splits
+2025-12-06 09:40:55,853 - root - INFO - Created directory: models\trained_models
+2025-12-06 09:40:55,853 - root - INFO - Created directory: models\scalers
+2025-12-06 09:40:55,853 - root - INFO - Created directory: models\performance
+2025-12-06 09:40:55,853 - root - INFO - Created directory: logs
+2025-12-06 09:40:55,853 - root - INFO - Created directory: dashboard\uploads
+2025-12-06 09:40:55,853 - root - INFO - All directories created successfully
+2025-12-06 09:40:55,853 - root - INFO - Found 1951 CSV files in raw data directory
+2025-12-06 09:40:55,853 - root - INFO - Using all 20 CPU cores for parallel processing
+2025-12-06 09:40:55,853 - root - INFO - Enabled models: random_forest, xgboost, lightgbm, cnn_1d, ensemble
+2025-12-06 09:40:55,853 - root - WARNING - GPU enabled in config but no GPU detected. Will use CPU.
+2025-12-06 09:40:55,853 - root - INFO - Configuration validation passed
+2025-12-06 09:40:55,865 - root - INFO - ======================================================================
+2025-12-06 09:40:55,866 - root - INFO - MAFAULDA PREDICTIVE MAINTENANCE PIPELINE
+2025-12-06 09:40:55,866 - root - INFO - ======================================================================
+2025-12-06 09:40:55,866 - root - INFO - Configuration: config.yaml
+2025-12-06 09:40:55,866 - root - INFO - Random Seed: 42
+2025-12-06 09:40:55,866 - root - INFO - Enabled Models: ['random_forest', 'xgboost', 'lightgbm', 'cnn_1d', 'ensemble']
+2025-12-06 09:40:55,866 - root - INFO - GPU Enabled: True
+2025-12-06 09:40:55,867 - root - INFO - Steps to run: [1, 2, 3, 4]
+2025-12-06 09:40:55,867 - root - INFO - ======================================================================
+2025-12-06 09:40:55,867 - root - INFO - 
+======================================================================
+2025-12-06 09:40:55,867 - root - INFO - STEP 1: DATA PREPARATION
+2025-12-06 09:40:55,867 - root - INFO - ======================================================================
+2025-12-06 09:40:55,867 - root - INFO - Initialized MAFAULDADataLoader with data path: data\raw
+2025-12-06 09:40:55,868 - root - INFO - Creating new data splits...
+2025-12-06 09:40:55,868 - root - INFO - Discovering CSV files in dataset...
+2025-12-06 09:40:55,871 - root - INFO - Found 1951 CSV files
+2025-12-06 09:40:55,886 - root - INFO - Class distribution (file-level):
+2025-12-06 09:40:55,886 - root - INFO -   horizontal_misalignment: 197 files
+2025-12-06 09:40:55,895 - root - INFO -   imbalance: 333 files
+2025-12-06 09:40:55,895 - root - INFO -   normal: 49 files
+2025-12-06 09:40:55,895 - root - INFO -   overhang_ball_fault: 137 files
+2025-12-06 09:40:55,895 - root - INFO -   overhang_cage_fault: 188 files
+2025-12-06 09:40:55,895 - root - INFO -   overhang_outer_race: 188 files
+2025-12-06 09:40:55,895 - root - INFO -   underhang_ball_fault: 186 files
+2025-12-06 09:40:55,896 - root - INFO -   underhang_cage_fault: 188 files
+2025-12-06 09:40:55,896 - root - INFO -   underhang_outer_race: 184 files
+2025-12-06 09:40:55,896 - root - INFO -   vertical_misalignment: 301 files
+2025-12-06 09:40:55,896 - root - INFO - Creating stratified splits with seed=42
+2025-12-06 09:40:55,896 - root - INFO - Split ratios: Train=0.7, Val=0.15, Test=0.15
+2025-12-06 09:40:55,900 - root - INFO - Splitting 1951 files across 10 classes
+2025-12-06 09:40:55,905 - root - INFO - 
+======================================================================
+2025-12-06 09:40:55,906 - root - INFO - SPLIT STATISTICS
+2025-12-06 09:40:55,906 - root - INFO - ======================================================================
+2025-12-06 09:40:55,906 - root - INFO - 
+Train Set: 1365 files
+2025-12-06 09:40:55,907 - root - INFO -   normal: 34 files (2.5%)
+2025-12-06 09:40:55,907 - root - INFO -   horizontal_misalignment: 138 files (10.1%)
+2025-12-06 09:40:55,907 - root - INFO -   vertical_misalignment: 211 files (15.5%)
+2025-12-06 09:40:55,907 - root - INFO -   imbalance: 233 files (17.1%)
+2025-12-06 09:40:55,907 - root - INFO -   underhang_ball_fault: 130 files (9.5%)
+2025-12-06 09:40:55,907 - root - INFO -   underhang_cage_fault: 132 files (9.7%)
+2025-12-06 09:40:55,907 - root - INFO -   underhang_outer_race: 129 files (9.5%)
+2025-12-06 09:40:55,907 - root - INFO -   overhang_ball_fault: 96 files (7.0%)
+2025-12-06 09:40:55,907 - root - INFO -   overhang_cage_fault: 131 files (9.6%)
+2025-12-06 09:40:55,907 - root - INFO -   overhang_outer_race: 131 files (9.6%)
+2025-12-06 09:40:55,907 - root - INFO - 
+Validation Set: 293 files
+2025-12-06 09:40:55,907 - root - INFO -   normal: 8 files (2.7%)
+2025-12-06 09:40:55,907 - root - INFO -   horizontal_misalignment: 30 files (10.2%)
+2025-12-06 09:40:55,908 - root - INFO -   vertical_misalignment: 45 files (15.4%)
+2025-12-06 09:40:55,908 - root - INFO -   imbalance: 50 files (17.1%)
+2025-12-06 09:40:55,908 - root - INFO -   underhang_ball_fault: 28 files (9.6%)
+2025-12-06 09:40:55,908 - root - INFO -   underhang_cage_fault: 28 files (9.6%)
+2025-12-06 09:40:55,908 - root - INFO -   underhang_outer_race: 27 files (9.2%)
+2025-12-06 09:40:55,908 - root - INFO -   overhang_ball_fault: 20 files (6.8%)
+2025-12-06 09:40:55,908 - root - INFO -   overhang_cage_fault: 28 files (9.6%)
+2025-12-06 09:40:55,908 - root - INFO -   overhang_outer_race: 29 files (9.9%)
+2025-12-06 09:40:55,908 - root - INFO - 
+Test Set: 293 files
+2025-12-06 09:40:55,908 - root - INFO -   normal: 7 files (2.4%)
+2025-12-06 09:40:55,908 - root - INFO -   horizontal_misalignment: 29 files (9.9%)
+2025-12-06 09:40:55,908 - root - INFO -   vertical_misalignment: 45 files (15.4%)
+2025-12-06 09:40:55,908 - root - INFO -   imbalance: 50 files (17.1%)
+2025-12-06 09:40:55,909 - root - INFO -   underhang_ball_fault: 28 files (9.6%)
+2025-12-06 09:40:55,909 - root - INFO -   underhang_cage_fault: 28 files (9.6%)
+2025-12-06 09:40:55,909 - root - INFO -   underhang_outer_race: 28 files (9.6%)
+2025-12-06 09:40:55,909 - root - INFO -   overhang_ball_fault: 21 files (7.2%)
+2025-12-06 09:40:55,909 - root - INFO -   overhang_cage_fault: 29 files (9.9%)
+2025-12-06 09:40:55,909 - root - INFO -   overhang_outer_race: 28 files (9.6%)
+2025-12-06 09:40:55,909 - root - INFO - ======================================================================
+
+2025-12-06 09:40:55,909 - root - INFO - Validating splits for data leakage...
+2025-12-06 09:40:55,912 - root - INFO - Stratified splits created successfully
+2025-12-06 09:40:55,918 - root - INFO - Saved JSON to data\splits\data_splits.json
+2025-12-06 09:40:55,924 - root - INFO - Saved pickle to data\splits\data_splits.pkl
+2025-12-06 09:40:55,924 - root - INFO - Splits saved to data\splits
+2025-12-06 09:40:55,925 - root - INFO - Saved JSON to data\splits\data_report.json
+2025-12-06 09:40:55,925 - root - INFO - Data report saved
+2025-12-06 09:40:55,925 - root - INFO - Step 1 completed in 0s
+2025-12-06 09:40:55,926 - root - INFO - 
+======================================================================
+2025-12-06 09:40:55,926 - root - INFO - STEP 2: FEATURE ENGINEERING
+2025-12-06 09:40:55,926 - root - INFO - ======================================================================
+2025-12-06 09:40:55,926 - root - INFO - Extracting features from raw data...
+2025-12-06 09:40:55,926 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 09:40:55,926 - root - INFO - 
+Processing TRAIN split...
+2025-12-06 09:40:55,926 - root - INFO - Extracting features from 1365 files using 20 cores
+2025-12-06 09:41:03,232 - root - INFO - Processed batch 1, total features: 50
+2025-12-06 09:41:08,386 - root - INFO - Processed batch 2, total features: 100
+2025-12-06 09:41:13,347 - root - INFO - Processed batch 3, total features: 150
+2025-12-06 09:41:18,446 - root - INFO - Processed batch 4, total features: 200
+2025-12-06 09:41:23,828 - root - INFO - Processed batch 5, total features: 250
+2025-12-06 09:41:29,258 - root - INFO - Processed batch 6, total features: 300
+2025-12-06 09:41:34,866 - root - INFO - Processed batch 7, total features: 350
+2025-12-06 09:41:40,640 - root - INFO - Processed batch 8, total features: 400
+2025-12-06 09:41:46,126 - root - INFO - Processed batch 9, total features: 450
+2025-12-06 09:41:51,512 - root - INFO - Processed batch 10, total features: 500
+2025-12-06 09:41:57,008 - root - INFO - Processed batch 11, total features: 550
+2025-12-06 09:42:02,463 - root - INFO - Processed batch 12, total features: 600
+2025-12-06 09:42:07,907 - root - INFO - Processed batch 13, total features: 650
+2025-12-06 09:42:13,607 - root - INFO - Processed batch 14, total features: 700
+2025-12-06 09:42:18,775 - root - INFO - Processed batch 15, total features: 750
+2025-12-06 09:42:24,026 - root - INFO - Processed batch 16, total features: 800
+2025-12-06 09:42:29,282 - root - INFO - Processed batch 17, total features: 850
+2025-12-06 09:42:34,615 - root - INFO - Processed batch 18, total features: 900
+2025-12-06 09:42:39,854 - root - INFO - Processed batch 19, total features: 950
+2025-12-06 09:42:45,109 - root - INFO - Processed batch 20, total features: 1000
+2025-12-06 09:42:50,373 - root - INFO - Processed batch 21, total features: 1050
+2025-12-06 09:42:55,597 - root - INFO - Processed batch 22, total features: 1100
+2025-12-06 09:43:00,815 - root - INFO - Processed batch 23, total features: 1150
+2025-12-06 09:43:06,072 - root - INFO - Processed batch 24, total features: 1200
+2025-12-06 09:43:11,327 - root - INFO - Processed batch 25, total features: 1250
+2025-12-06 09:43:16,605 - root - INFO - Processed batch 26, total features: 1300
+2025-12-06 09:43:21,881 - root - INFO - Processed batch 27, total features: 1350
+2025-12-06 09:43:23,546 - root - INFO - Processed batch 28, total features: 1365
+2025-12-06 09:43:23,636 - root - INFO - Extracted 472 features from 1365 files
+2025-12-06 09:43:23,647 - root - INFO - Fitting feature engineering pipeline...
+2025-12-06 09:43:23,666 - root - INFO - Removed 0 zero-variance features
+2025-12-06 09:43:24,063 - root - INFO - Removed 266 highly correlated features (threshold=0.95)
+2025-12-06 09:43:25,268 - root - INFO - Selected 100 best features using mutual_info
+2025-12-06 09:43:25,272 - root - INFO - Fitted robust scaler
+2025-12-06 09:43:25,279 - root - INFO - Saved pickle to models\scalers\feature_pipeline.pkl
+2025-12-06 09:43:25,281 - root - INFO - Saved feature engineering pipeline to models\scalers\feature_pipeline.pkl
+2025-12-06 09:43:25,361 - root - INFO - Saved train features: (1365, 101)
+2025-12-06 09:43:25,361 - root - INFO - 
+Processing VAL split...
+2025-12-06 09:43:25,361 - root - INFO - Extracting features from 293 files using 20 cores
+2025-12-06 09:43:30,578 - root - INFO - Processed batch 1, total features: 50
+2025-12-06 09:43:35,990 - root - INFO - Processed batch 2, total features: 100
+2025-12-06 09:43:41,458 - root - INFO - Processed batch 3, total features: 150
+2025-12-06 09:43:46,878 - root - INFO - Processed batch 4, total features: 200
+2025-12-06 09:43:52,236 - root - INFO - Processed batch 5, total features: 250
+2025-12-06 09:43:56,940 - root - INFO - Processed batch 6, total features: 293
+2025-12-06 09:43:56,960 - root - INFO - Extracted 472 features from 293 files
+2025-12-06 09:43:56,974 - root - INFO - Saved val features: (293, 101)
+2025-12-06 09:43:56,974 - root - INFO - 
+Processing TEST split...
+2025-12-06 09:43:56,975 - root - INFO - Extracting features from 293 files using 20 cores
+2025-12-06 09:44:02,219 - root - INFO - Processed batch 1, total features: 50
+2025-12-06 09:44:07,438 - root - INFO - Processed batch 2, total features: 100
+2025-12-06 09:44:12,716 - root - INFO - Processed batch 3, total features: 150
+2025-12-06 09:44:17,991 - root - INFO - Processed batch 4, total features: 200
+2025-12-06 09:44:23,271 - root - INFO - Processed batch 5, total features: 250
+2025-12-06 09:44:27,980 - root - INFO - Processed batch 6, total features: 293
+2025-12-06 09:44:28,002 - root - INFO - Extracted 472 features from 293 files
+2025-12-06 09:44:28,021 - root - INFO - Saved test features: (293, 101)
+2025-12-06 09:44:28,021 - root - INFO - Step 2 completed in 3m 32s
+2025-12-06 09:44:28,022 - root - INFO - 
+======================================================================
+2025-12-06 09:44:28,022 - root - INFO - STEP 3: MODEL TRAINING
+2025-12-06 09:44:28,022 - root - INFO - ======================================================================
+2025-12-06 09:44:28,022 - root - INFO - Loading preprocessed features...
+2025-12-06 09:44:28,131 - root - INFO - Training set: (1365, 100)
+2025-12-06 09:44:28,131 - root - INFO - Validation set: (293, 100)
+2025-12-06 09:44:28,131 - root - INFO - Initialized ModelTrainer
+2025-12-06 09:44:28,131 - root - INFO - 
+======================================================================
+2025-12-06 09:44:28,131 - root - INFO - TRAINING ALL MODELS
+2025-12-06 09:44:28,131 - root - INFO - ======================================================================
+2025-12-06 09:44:28,131 - root - INFO - Training Random Forest...
+2025-12-06 09:44:47,227 - root - INFO - No overfitting. Train: 1.0000, Val: 1.0000, Gap: 0.0000
+2025-12-06 09:44:47,227 - root - INFO - Random Forest trained in 19s
+2025-12-06 09:44:47,227 - root - INFO - Train accuracy: 1.0000, Val accuracy: 1.0000
+2025-12-06 09:44:47,227 - root - INFO - Training XGBoost...
+2025-12-06 09:44:47,361 - root - ERROR - 
+Pipeline failed with error: 
+All the 250 fits failed.
+It is very likely that your model is misconfigured.
+You can try to debug the error by setting error_score='raise'.
+
+Below are more details about the failures:
+--------------------------------------------------------------------------------
+250 fits failed with the following error:
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\model_selection\_validation.py", line 859, in _fit_and_score
+    estimator.fit(X_train, y_train, **fit_params)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\core.py", line 774, in inner_f
+    return func(**kwargs)
+           ^^^^^^^^^^^^^^
+TypeError: XGBClassifier.fit() got an unexpected keyword argument 'early_stopping_rounds'
+Traceback (most recent call last):
+  File "C:\Users\User\Desktop\lenovo\2nd year cycle\ml\ML_f\train_pipeline.py", line 305, in main
+    trainer = step_3_model_training(config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\Desktop\lenovo\2nd year cycle\ml\ML_f\train_pipeline.py", line 177, in step_3_model_training
+    models = trainer.train_all_models(X_train, y_train, X_val, y_val)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\Desktop\lenovo\2nd year cycle\ml\ML_f\src\model_trainer.py", line 457, in train_all_models
+    self.models['xgboost'] = self.train_xgboost(X_train, y_train, X_val, y_val)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\Desktop\lenovo\2nd year cycle\ml\ML_f\src\model_trainer.py", line 223, in train_xgboost
+    search.fit(
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 1365, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\model_selection\_search.py", line 1051, in fit
+    self._run_search(evaluate_candidates)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\model_selection\_search.py", line 1992, in _run_search
+    evaluate_candidates(
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\model_selection\_search.py", line 1028, in evaluate_candidates
+    _warn_or_raise_about_fit_failures(out, self.error_score)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\model_selection\_validation.py", line 505, in _warn_or_raise_about_fit_failures
+    raise ValueError(all_fits_failed_message)
+ValueError: 
+All the 250 fits failed.
+It is very likely that your model is misconfigured.
+You can try to debug the error by setting error_score='raise'.
+
+Below are more details about the failures:
+--------------------------------------------------------------------------------
+250 fits failed with the following error:
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\model_selection\_validation.py", line 859, in _fit_and_score
+    estimator.fit(X_train, y_train, **fit_params)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\core.py", line 774, in inner_f
+    return func(**kwargs)
+           ^^^^^^^^^^^^^^
+TypeError: XGBClassifier.fit() got an unexpected keyword argument 'early_stopping_rounds'
+
+2025-12-06 10:07:51,111 - root - INFO - Configuration loaded from config.yaml
+2025-12-06 10:07:51,113 - root - INFO - Logging to logs\training_pipeline_20251206_100751.log
+2025-12-06 10:07:53,121 - root - INFO - TensorFlow random seed set to 42
+2025-12-06 10:07:54,481 - root - INFO - PyTorch random seed set to 42
+2025-12-06 10:07:54,481 - root - INFO - Reproducibility setup complete (seed=42)
+2025-12-06 10:07:54,481 - root - WARNING - No TensorFlow GPUs found
+2025-12-06 10:07:54,481 - root - WARNING - No PyTorch CUDA devices found
+2025-12-06 10:07:54,481 - root - INFO - Created directory: data\raw
+2025-12-06 10:07:54,481 - root - INFO - Created directory: data\processed
+2025-12-06 10:07:54,481 - root - INFO - Created directory: data\splits
+2025-12-06 10:07:54,481 - root - INFO - Created directory: models\trained_models
+2025-12-06 10:07:54,481 - root - INFO - Created directory: models\scalers
+2025-12-06 10:07:54,481 - root - INFO - Created directory: models\performance
+2025-12-06 10:07:54,481 - root - INFO - Created directory: logs
+2025-12-06 10:07:54,481 - root - INFO - Created directory: dashboard\uploads
+2025-12-06 10:07:54,481 - root - INFO - All directories created successfully
+2025-12-06 10:07:54,493 - root - INFO - Found 1951 CSV files in raw data directory
+2025-12-06 10:07:54,493 - root - INFO - Using all 20 CPU cores for parallel processing
+2025-12-06 10:07:54,493 - root - INFO - Enabled models: random_forest, xgboost, lightgbm, cnn_1d, ensemble
+2025-12-06 10:07:54,493 - root - WARNING - GPU enabled in config but no GPU detected. Will use CPU.
+2025-12-06 10:07:54,493 - root - INFO - Configuration validation passed
+2025-12-06 10:07:54,493 - root - INFO - ======================================================================
+2025-12-06 10:07:54,493 - root - INFO - MAFAULDA PREDICTIVE MAINTENANCE PIPELINE
+2025-12-06 10:07:54,495 - root - INFO - ======================================================================
+2025-12-06 10:07:54,495 - root - INFO - Configuration: config.yaml
+2025-12-06 10:07:54,495 - root - INFO - Random Seed: 42
+2025-12-06 10:07:54,495 - root - INFO - Enabled Models: ['random_forest', 'xgboost', 'lightgbm', 'cnn_1d', 'ensemble']
+2025-12-06 10:07:54,495 - root - INFO - GPU Enabled: True
+2025-12-06 10:07:54,495 - root - INFO - Steps to run: [1, 2, 3, 4]
+2025-12-06 10:07:54,495 - root - INFO - ======================================================================
+2025-12-06 10:07:54,495 - root - INFO - 
+======================================================================
+2025-12-06 10:07:54,495 - root - INFO - STEP 1: DATA PREPARATION
+2025-12-06 10:07:54,495 - root - INFO - ======================================================================
+2025-12-06 10:07:54,495 - root - INFO - Initialized MAFAULDADataLoader with data path: data\raw
+2025-12-06 10:07:54,496 - root - INFO - Loading existing data splits...
+2025-12-06 10:07:54,496 - root - INFO - Loading splits from data\splits\data_splits.pkl
+2025-12-06 10:07:54,499 - root - INFO - Loaded pickle from data\splits\data_splits.pkl
+2025-12-06 10:07:54,499 - root - INFO - Loaded splits: 1365 train, 293 val, 293 test
+2025-12-06 10:07:54,499 - root - INFO - Step 1 completed in 0s
+2025-12-06 10:07:54,499 - root - INFO - 
+======================================================================
+2025-12-06 10:07:54,499 - root - INFO - STEP 2: FEATURE ENGINEERING
+2025-12-06 10:07:54,499 - root - INFO - ======================================================================
+2025-12-06 10:07:54,499 - root - INFO - Features already extracted. Loading from disk...
+2025-12-06 10:07:54,499 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 10:07:54,499 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 10:07:54,499 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 10:07:54,502 - root - INFO - Step 2 completed in 0s
+2025-12-06 10:07:54,502 - root - INFO - 
+======================================================================
+2025-12-06 10:07:54,502 - root - INFO - STEP 3: MODEL TRAINING
+2025-12-06 10:07:54,502 - root - INFO - ======================================================================
+2025-12-06 10:07:54,502 - root - INFO - Loading preprocessed features...
+2025-12-06 10:07:54,535 - root - INFO - Training set: (1365, 100)
+2025-12-06 10:07:54,535 - root - INFO - Validation set: (293, 100)
+2025-12-06 10:07:54,535 - root - INFO - Initialized ModelTrainer
+2025-12-06 10:07:54,536 - root - INFO - 
+======================================================================
+2025-12-06 10:07:54,536 - root - INFO - TRAINING ALL MODELS
+2025-12-06 10:07:54,536 - root - INFO - ======================================================================
+2025-12-06 10:07:54,536 - root - INFO - Training Random Forest...
+2025-12-06 10:08:14,301 - root - INFO - No overfitting. Train: 1.0000, Val: 1.0000, Gap: 0.0000
+2025-12-06 10:08:14,301 - root - INFO - Random Forest trained in 19s
+2025-12-06 10:08:14,301 - root - INFO - Train accuracy: 1.0000, Val accuracy: 1.0000
+2025-12-06 10:08:14,302 - root - INFO - Training XGBoost...
+2025-12-06 10:08:16,937 - root - ERROR - 
+Pipeline failed with error: 
+All the 250 fits failed.
+It is very likely that your model is misconfigured.
+You can try to debug the error by setting error_score='raise'.
+
+Below are more details about the failures:
+--------------------------------------------------------------------------------
+250 fits failed with the following error:
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\model_selection\_validation.py", line 859, in _fit_and_score
+    estimator.fit(X_train, y_train, **fit_params)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\core.py", line 774, in inner_f
+    return func(**kwargs)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\sklearn.py", line 1806, in fit
+    self._Booster = train(
+                    ^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\core.py", line 774, in inner_f
+    return func(**kwargs)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\training.py", line 194, in train
+    bst = cb_container.before_training(bst)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\callback.py", line 187, in before_training
+    model = c.before_training(model=model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\callback.py", line 386, in before_training
+    self.starting_round = model.num_boosted_rounds()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\core.py", line 3098, in num_boosted_rounds
+    _check_call(_LIB.XGBoosterBoostedRounds(self.handle, ctypes.byref(rounds)))
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\core.py", line 323, in _check_call
+    raise XGBoostError(py_str(_LIB.XGBGetLastError()))
+xgboost.core.XGBoostError: [10:08:16] C:\actions-runner\_work\xgboost\xgboost\src\context.cc:242: `gpu_id` has been removed since 3.1. Use `device` instead.
+Traceback (most recent call last):
+  File "C:\Users\User\Desktop\lenovo\2nd year cycle\ml\ML_f\train_pipeline.py", line 305, in main
+    trainer = step_3_model_training(config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\Desktop\lenovo\2nd year cycle\ml\ML_f\train_pipeline.py", line 177, in step_3_model_training
+    models = trainer.train_all_models(X_train, y_train, X_val, y_val)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\Desktop\lenovo\2nd year cycle\ml\ML_f\src\model_trainer.py", line 464, in train_all_models
+    self.models['xgboost'] = self.train_xgboost(X_train, y_train, X_val, y_val)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\Desktop\lenovo\2nd year cycle\ml\ML_f\src\model_trainer.py", line 232, in train_xgboost
+    search.fit(
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 1365, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\model_selection\_search.py", line 1051, in fit
+    self._run_search(evaluate_candidates)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\model_selection\_search.py", line 1992, in _run_search
+    evaluate_candidates(
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\model_selection\_search.py", line 1028, in evaluate_candidates
+    _warn_or_raise_about_fit_failures(out, self.error_score)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\model_selection\_validation.py", line 505, in _warn_or_raise_about_fit_failures
+    raise ValueError(all_fits_failed_message)
+ValueError: 
+All the 250 fits failed.
+It is very likely that your model is misconfigured.
+You can try to debug the error by setting error_score='raise'.
+
+Below are more details about the failures:
+--------------------------------------------------------------------------------
+250 fits failed with the following error:
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\model_selection\_validation.py", line 859, in _fit_and_score
+    estimator.fit(X_train, y_train, **fit_params)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\core.py", line 774, in inner_f
+    return func(**kwargs)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\sklearn.py", line 1806, in fit
+    self._Booster = train(
+                    ^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\core.py", line 774, in inner_f
+    return func(**kwargs)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\training.py", line 194, in train
+    bst = cb_container.before_training(bst)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\callback.py", line 187, in before_training
+    model = c.before_training(model=model)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\callback.py", line 386, in before_training
+    self.starting_round = model.num_boosted_rounds()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\core.py", line 3098, in num_boosted_rounds
+    _check_call(_LIB.XGBoosterBoostedRounds(self.handle, ctypes.byref(rounds)))
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\core.py", line 323, in _check_call
+    raise XGBoostError(py_str(_LIB.XGBGetLastError()))
+xgboost.core.XGBoostError: [10:08:16] C:\actions-runner\_work\xgboost\xgboost\src\context.cc:242: `gpu_id` has been removed since 3.1. Use `device` instead.
+
+2025-12-06 10:11:47,296 - root - INFO - Configuration loaded from config.yaml
+2025-12-06 10:11:47,296 - root - INFO - Logging to logs\training_pipeline_20251206_101147.log
+2025-12-06 10:11:48,563 - root - INFO - TensorFlow random seed set to 42
+2025-12-06 10:11:49,841 - root - INFO - PyTorch random seed set to 42
+2025-12-06 10:11:49,841 - root - INFO - Reproducibility setup complete (seed=42)
+2025-12-06 10:11:49,841 - root - WARNING - No TensorFlow GPUs found
+2025-12-06 10:11:49,841 - root - WARNING - No PyTorch CUDA devices found
+2025-12-06 10:11:49,841 - root - INFO - Created directory: data\raw
+2025-12-06 10:11:49,841 - root - INFO - Created directory: data\processed
+2025-12-06 10:11:49,841 - root - INFO - Created directory: data\splits
+2025-12-06 10:11:49,841 - root - INFO - Created directory: models\trained_models
+2025-12-06 10:11:49,841 - root - INFO - Created directory: models\scalers
+2025-12-06 10:11:49,841 - root - INFO - Created directory: models\performance
+2025-12-06 10:11:49,841 - root - INFO - Created directory: logs
+2025-12-06 10:11:49,841 - root - INFO - Created directory: dashboard\uploads
+2025-12-06 10:11:49,841 - root - INFO - All directories created successfully
+2025-12-06 10:11:49,857 - root - INFO - Found 1951 CSV files in raw data directory
+2025-12-06 10:11:49,857 - root - INFO - Using all 20 CPU cores for parallel processing
+2025-12-06 10:11:49,858 - root - INFO - Enabled models: random_forest, xgboost, lightgbm, cnn_1d, ensemble
+2025-12-06 10:11:49,858 - root - WARNING - GPU enabled in config but no GPU detected. Will use CPU.
+2025-12-06 10:11:49,858 - root - INFO - Configuration validation passed
+2025-12-06 10:11:49,858 - root - INFO - ======================================================================
+2025-12-06 10:11:49,858 - root - INFO - MAFAULDA PREDICTIVE MAINTENANCE PIPELINE
+2025-12-06 10:11:49,858 - root - INFO - ======================================================================
+2025-12-06 10:11:49,858 - root - INFO - Configuration: config.yaml
+2025-12-06 10:11:49,858 - root - INFO - Random Seed: 42
+2025-12-06 10:11:49,858 - root - INFO - Enabled Models: ['random_forest', 'xgboost', 'lightgbm', 'cnn_1d', 'ensemble']
+2025-12-06 10:11:49,858 - root - INFO - GPU Enabled: True
+2025-12-06 10:11:49,858 - root - INFO - Steps to run: [1, 2, 3, 4]
+2025-12-06 10:11:49,858 - root - INFO - ======================================================================
+2025-12-06 10:11:49,858 - root - INFO - 
+======================================================================
+2025-12-06 10:11:49,858 - root - INFO - STEP 1: DATA PREPARATION
+2025-12-06 10:11:49,858 - root - INFO - ======================================================================
+2025-12-06 10:11:49,858 - root - INFO - Initialized MAFAULDADataLoader with data path: data\raw
+2025-12-06 10:11:49,858 - root - INFO - Loading existing data splits...
+2025-12-06 10:11:49,858 - root - INFO - Loading splits from data\splits\data_splits.pkl
+2025-12-06 10:11:49,860 - root - INFO - Loaded pickle from data\splits\data_splits.pkl
+2025-12-06 10:11:49,861 - root - INFO - Loaded splits: 1365 train, 293 val, 293 test
+2025-12-06 10:11:49,861 - root - INFO - Step 1 completed in 0s
+2025-12-06 10:11:49,862 - root - INFO - 
+======================================================================
+2025-12-06 10:11:49,862 - root - INFO - STEP 2: FEATURE ENGINEERING
+2025-12-06 10:11:49,862 - root - INFO - ======================================================================
+2025-12-06 10:11:49,862 - root - INFO - Features already extracted. Loading from disk...
+2025-12-06 10:11:49,862 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 10:11:49,862 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 10:11:49,863 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 10:11:49,863 - root - INFO - Step 2 completed in 0s
+2025-12-06 10:11:49,863 - root - INFO - 
+======================================================================
+2025-12-06 10:11:49,863 - root - INFO - STEP 3: MODEL TRAINING
+2025-12-06 10:11:49,863 - root - INFO - ======================================================================
+2025-12-06 10:11:49,863 - root - INFO - Loading preprocessed features...
+2025-12-06 10:11:49,896 - root - INFO - Training set: (1365, 100)
+2025-12-06 10:11:49,896 - root - INFO - Validation set: (293, 100)
+2025-12-06 10:11:49,896 - root - INFO - Initialized ModelTrainer
+2025-12-06 10:11:49,896 - root - ERROR - 
+Pipeline failed with error: 'ModelTrainer' object has no attribute 'train_all_models'
+Traceback (most recent call last):
+  File "C:\Users\User\Desktop\lenovo\2nd year cycle\ml\ML_f\train_pipeline.py", line 305, in main
+    trainer = step_3_model_training(config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\Desktop\lenovo\2nd year cycle\ml\ML_f\train_pipeline.py", line 177, in step_3_model_training
+    models = trainer.train_all_models(X_train, y_train, X_val, y_val)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ModelTrainer' object has no attribute 'train_all_models'
+2025-12-06 10:16:41,656 - root - INFO - Configuration loaded from config.yaml
+2025-12-06 10:16:41,656 - root - INFO - Logging to logs\training_pipeline_20251206_101641.log
+2025-12-06 10:16:42,843 - root - INFO - TensorFlow random seed set to 42
+2025-12-06 10:16:43,992 - root - INFO - PyTorch random seed set to 42
+2025-12-06 10:16:43,992 - root - INFO - Reproducibility setup complete (seed=42)
+2025-12-06 10:16:43,993 - root - WARNING - No TensorFlow GPUs found
+2025-12-06 10:16:43,993 - root - WARNING - No PyTorch CUDA devices found
+2025-12-06 10:16:43,993 - root - INFO - Created directory: data\raw
+2025-12-06 10:16:43,993 - root - INFO - Created directory: data\processed
+2025-12-06 10:16:43,993 - root - INFO - Created directory: data\splits
+2025-12-06 10:16:43,993 - root - INFO - Created directory: models\trained_models
+2025-12-06 10:16:43,993 - root - INFO - Created directory: models\scalers
+2025-12-06 10:16:43,993 - root - INFO - Created directory: models\performance
+2025-12-06 10:16:43,993 - root - INFO - Created directory: logs
+2025-12-06 10:16:43,993 - root - INFO - Created directory: dashboard\uploads
+2025-12-06 10:16:43,993 - root - INFO - All directories created successfully
+2025-12-06 10:16:44,004 - root - INFO - Found 1951 CSV files in raw data directory
+2025-12-06 10:16:44,004 - root - INFO - Using all 20 CPU cores for parallel processing
+2025-12-06 10:16:44,004 - root - INFO - Enabled models: random_forest, xgboost, lightgbm, cnn_1d, ensemble
+2025-12-06 10:16:44,004 - root - WARNING - GPU enabled in config but no GPU detected. Will use CPU.
+2025-12-06 10:16:44,005 - root - INFO - Configuration validation passed
+2025-12-06 10:16:44,005 - root - INFO - ======================================================================
+2025-12-06 10:16:44,006 - root - INFO - MAFAULDA PREDICTIVE MAINTENANCE PIPELINE
+2025-12-06 10:16:44,006 - root - INFO - ======================================================================
+2025-12-06 10:16:44,006 - root - INFO - Configuration: config.yaml
+2025-12-06 10:16:44,006 - root - INFO - Random Seed: 42
+2025-12-06 10:16:44,006 - root - INFO - Enabled Models: ['random_forest', 'xgboost', 'lightgbm', 'cnn_1d', 'ensemble']
+2025-12-06 10:16:44,006 - root - INFO - GPU Enabled: True
+2025-12-06 10:16:44,006 - root - INFO - Steps to run: [1, 2, 3, 4]
+2025-12-06 10:16:44,006 - root - INFO - ======================================================================
+2025-12-06 10:16:44,006 - root - INFO - 
+======================================================================
+2025-12-06 10:16:44,006 - root - INFO - STEP 1: DATA PREPARATION
+2025-12-06 10:16:44,007 - root - INFO - ======================================================================
+2025-12-06 10:16:44,007 - root - INFO - Initialized MAFAULDADataLoader with data path: data\raw
+2025-12-06 10:16:44,007 - root - INFO - Loading existing data splits...
+2025-12-06 10:16:44,007 - root - INFO - Loading splits from data\splits\data_splits.pkl
+2025-12-06 10:16:44,008 - root - INFO - Loaded pickle from data\splits\data_splits.pkl
+2025-12-06 10:16:44,008 - root - INFO - Loaded splits: 1365 train, 293 val, 293 test
+2025-12-06 10:16:44,010 - root - INFO - Step 1 completed in 0s
+2025-12-06 10:16:44,010 - root - INFO - 
+======================================================================
+2025-12-06 10:16:44,010 - root - INFO - STEP 2: FEATURE ENGINEERING
+2025-12-06 10:16:44,010 - root - INFO - ======================================================================
+2025-12-06 10:16:44,010 - root - INFO - Features already extracted. Loading from disk...
+2025-12-06 10:16:44,011 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 10:16:44,012 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 10:16:44,012 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 10:16:44,012 - root - INFO - Step 2 completed in 0s
+2025-12-06 10:16:44,012 - root - INFO - 
+======================================================================
+2025-12-06 10:16:44,012 - root - INFO - STEP 3: MODEL TRAINING
+2025-12-06 10:16:44,012 - root - INFO - ======================================================================
+2025-12-06 10:16:44,012 - root - INFO - Loading preprocessed features...
+2025-12-06 10:16:44,045 - root - INFO - Training set: (1365, 100)
+2025-12-06 10:16:44,045 - root - INFO - Validation set: (293, 100)
+2025-12-06 10:16:44,045 - root - INFO - Initialized ModelTrainer
+2025-12-06 10:16:44,045 - root - INFO - 
+======================================================================
+2025-12-06 10:16:44,045 - root - INFO - TRAINING ALL MODELS
+2025-12-06 10:16:44,045 - root - INFO - ======================================================================
+2025-12-06 10:16:44,045 - root - INFO - Training Random Forest...
+2025-12-06 10:17:02,832 - root - INFO - No overfitting. Train: 1.0000, Val: 1.0000, Gap: 0.0000
+2025-12-06 10:17:02,833 - root - INFO - Random Forest trained in 18s
+2025-12-06 10:17:02,833 - root - INFO - Train accuracy: 1.0000, Val accuracy: 1.0000
+2025-12-06 10:17:02,833 - root - INFO - Training XGBoost...
+2025-12-06 10:17:02,833 - root - INFO - XGBoost version: 3.1.2
+2025-12-06 10:17:02,833 - root - ERROR - 
+Pipeline failed with error: 'str' object has no attribute 'parse'
+Traceback (most recent call last):
+  File "C:\Users\User\Desktop\lenovo\2nd year cycle\ml\ML_f\train_pipeline.py", line 305, in main
+    trainer = step_3_model_training(config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\Desktop\lenovo\2nd year cycle\ml\ML_f\train_pipeline.py", line 177, in step_3_model_training
+    models = trainer.train_all_models(X_train, y_train, X_val, y_val)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\Desktop\lenovo\2nd year cycle\ml\ML_f\src\model_trainer.py", line 517, in train_all_models
+    self.models['xgboost'] = self.train_xgboost(X_train, y_train, X_val, y_val)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\Desktop\lenovo\2nd year cycle\ml\ML_f\src\model_trainer.py", line 184, in train_xgboost
+    if version.parse(xgb_version) >= version.parse('3.1.0'):
+       ^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'parse'
+2025-12-06 10:19:37,543 - root - INFO - Configuration loaded from config.yaml
+2025-12-06 10:19:37,543 - root - INFO - Logging to logs\training_pipeline_20251206_101937.log
+2025-12-06 10:19:38,722 - root - INFO - TensorFlow random seed set to 42
+2025-12-06 10:19:39,884 - root - INFO - PyTorch random seed set to 42
+2025-12-06 10:19:39,884 - root - INFO - Reproducibility setup complete (seed=42)
+2025-12-06 10:19:39,884 - root - WARNING - No TensorFlow GPUs found
+2025-12-06 10:19:39,884 - root - WARNING - No PyTorch CUDA devices found
+2025-12-06 10:19:39,884 - root - INFO - Created directory: data\raw
+2025-12-06 10:19:39,884 - root - INFO - Created directory: data\processed
+2025-12-06 10:19:39,884 - root - INFO - Created directory: data\splits
+2025-12-06 10:19:39,884 - root - INFO - Created directory: models\trained_models
+2025-12-06 10:19:39,884 - root - INFO - Created directory: models\scalers
+2025-12-06 10:19:39,887 - root - INFO - Created directory: models\performance
+2025-12-06 10:19:39,887 - root - INFO - Created directory: logs
+2025-12-06 10:19:39,887 - root - INFO - Created directory: dashboard\uploads
+2025-12-06 10:19:39,888 - root - INFO - All directories created successfully
+2025-12-06 10:19:39,898 - root - INFO - Found 1951 CSV files in raw data directory
+2025-12-06 10:19:39,898 - root - INFO - Using all 20 CPU cores for parallel processing
+2025-12-06 10:19:39,898 - root - INFO - Enabled models: random_forest, xgboost, lightgbm, cnn_1d, ensemble
+2025-12-06 10:19:39,899 - root - WARNING - GPU enabled in config but no GPU detected. Will use CPU.
+2025-12-06 10:19:39,899 - root - INFO - Configuration validation passed
+2025-12-06 10:19:39,899 - root - INFO - ======================================================================
+2025-12-06 10:19:39,899 - root - INFO - MAFAULDA PREDICTIVE MAINTENANCE PIPELINE
+2025-12-06 10:19:39,899 - root - INFO - ======================================================================
+2025-12-06 10:19:39,899 - root - INFO - Configuration: config.yaml
+2025-12-06 10:19:39,899 - root - INFO - Random Seed: 42
+2025-12-06 10:19:39,899 - root - INFO - Enabled Models: ['random_forest', 'xgboost', 'lightgbm', 'cnn_1d', 'ensemble']
+2025-12-06 10:19:39,899 - root - INFO - GPU Enabled: True
+2025-12-06 10:19:39,900 - root - INFO - Steps to run: [1, 2, 3, 4]
+2025-12-06 10:19:39,900 - root - INFO - ======================================================================
+2025-12-06 10:19:39,900 - root - INFO - 
+======================================================================
+2025-12-06 10:19:39,900 - root - INFO - STEP 1: DATA PREPARATION
+2025-12-06 10:19:39,900 - root - INFO - ======================================================================
+2025-12-06 10:19:39,901 - root - INFO - Initialized MAFAULDADataLoader with data path: data\raw
+2025-12-06 10:19:39,901 - root - INFO - Loading existing data splits...
+2025-12-06 10:19:39,901 - root - INFO - Loading splits from data\splits\data_splits.pkl
+2025-12-06 10:19:39,902 - root - INFO - Loaded pickle from data\splits\data_splits.pkl
+2025-12-06 10:19:39,904 - root - INFO - Loaded splits: 1365 train, 293 val, 293 test
+2025-12-06 10:19:39,904 - root - INFO - Step 1 completed in 0s
+2025-12-06 10:19:39,904 - root - INFO - 
+======================================================================
+2025-12-06 10:19:39,904 - root - INFO - STEP 2: FEATURE ENGINEERING
+2025-12-06 10:19:39,904 - root - INFO - ======================================================================
+2025-12-06 10:19:39,904 - root - INFO - Features already extracted. Loading from disk...
+2025-12-06 10:19:39,904 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 10:19:39,904 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 10:19:39,905 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 10:19:39,905 - root - INFO - Step 2 completed in 0s
+2025-12-06 10:19:39,905 - root - INFO - 
+======================================================================
+2025-12-06 10:19:39,905 - root - INFO - STEP 3: MODEL TRAINING
+2025-12-06 10:19:39,905 - root - INFO - ======================================================================
+2025-12-06 10:19:39,905 - root - INFO - Loading preprocessed features...
+2025-12-06 10:19:39,936 - root - INFO - Training set: (1365, 100)
+2025-12-06 10:19:39,937 - root - INFO - Validation set: (293, 100)
+2025-12-06 10:19:39,937 - root - INFO - Initialized ModelTrainer
+2025-12-06 10:19:39,937 - root - INFO - 
+======================================================================
+2025-12-06 10:19:39,938 - root - INFO - TRAINING ALL MODELS
+2025-12-06 10:19:39,938 - root - INFO - ======================================================================
+2025-12-06 10:19:39,938 - root - INFO - Training Random Forest...
+2025-12-06 10:19:58,817 - root - INFO - No overfitting. Train: 1.0000, Val: 1.0000, Gap: 0.0000
+2025-12-06 10:19:58,817 - root - INFO - Random Forest trained in 18s
+2025-12-06 10:19:58,817 - root - INFO - Train accuracy: 1.0000, Val accuracy: 1.0000
+2025-12-06 10:19:58,817 - root - INFO - Training XGBoost...
+2025-12-06 10:19:58,817 - root - INFO - XGBoost version: 3.1.2
+2025-12-06 10:28:11,304 - root - INFO - No overfitting. Train: 1.0000, Val: 1.0000, Gap: 0.0000
+2025-12-06 10:28:11,304 - root - INFO - XGBoost trained in 8m 12s
+2025-12-06 10:28:11,304 - root - INFO - Train accuracy: 1.0000, Val accuracy: 1.0000
+2025-12-06 10:28:11,304 - root - INFO - Training LightGBM...
+2025-12-06 10:35:43,483 - root - INFO - No overfitting. Train: 1.0000, Val: 0.9966, Gap: 0.0034
+2025-12-06 10:35:43,483 - root - INFO - LightGBM trained in 7m 32s
+2025-12-06 10:35:43,483 - root - INFO - Train accuracy: 1.0000, Val accuracy: 0.9966
+2025-12-06 10:35:43,483 - root - INFO - Training Ensemble...
+2025-12-06 10:35:46,162 - root - ERROR - 
+Pipeline failed with error: Must have at least 1 validation dataset for early stopping.
+joblib.externals.loky.process_executor._RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\joblib\externals\loky\process_executor.py", line 490, in _process_worker
+    r = call_item()
+        ^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\joblib\externals\loky\process_executor.py", line 291, in __call__
+    return self.fn(*self.args, **self.kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\joblib\parallel.py", line 607, in __call__
+    return [func(*args, **kwargs) for func, args, kwargs in self.items]
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\parallel.py", line 147, in __call__
+    return self.function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\ensemble\_base.py", line 39, in _fit_single_estimator
+    estimator.fit(X, y, **fit_params)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\core.py", line 774, in inner_f
+    return func(**kwargs)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\sklearn.py", line 1806, in fit
+    self._Booster = train(
+                    ^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\core.py", line 774, in inner_f
+    return func(**kwargs)
+           ^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\training.py", line 200, in train
+    if cb_container.after_iteration(bst, i, dtrain, evals):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\callback.py", line 269, in after_iteration
+    ret = any(c.after_iteration(model, epoch, self.history) for c in self.callbacks)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\callback.py", line 269, in <genexpr>
+    ret = any(c.after_iteration(model, epoch, self.history) for c in self.callbacks)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\xgboost\callback.py", line 461, in after_iteration
+    raise ValueError(msg)
+ValueError: Must have at least 1 validation dataset for early stopping.
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\User\Desktop\lenovo\2nd year cycle\ml\ML_f\train_pipeline.py", line 305, in main
+    trainer = step_3_model_training(config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\Desktop\lenovo\2nd year cycle\ml\ML_f\train_pipeline.py", line 177, in step_3_model_training
+    models = trainer.train_all_models(X_train, y_train, X_val, y_val)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\Desktop\lenovo\2nd year cycle\ml\ML_f\src\model_trainer.py", line 532, in train_all_models
+    self.models['ensemble'] = self.train_ensemble(X_train, y_train, X_val, y_val)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\Desktop\lenovo\2nd year cycle\ml\ML_f\src\model_trainer.py", line 476, in train_ensemble
+    ensemble.fit(X_train, y_train)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\base.py", line 1365, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\ensemble\_voting.py", line 405, in fit
+    return super().fit(X, transformed_y, **fit_params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\ensemble\_voting.py", line 99, in fit
+    self.estimators_ = Parallel(n_jobs=self.n_jobs)(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\sklearn\utils\parallel.py", line 82, in __call__
+    return super().__call__(iterable_with_config_and_warning_filters)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\joblib\parallel.py", line 2072, in __call__
+    return output if self.return_generator else list(output)
+                                                ^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\joblib\parallel.py", line 1682, in _get_outputs
+    yield from self._retrieve()
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\joblib\parallel.py", line 1784, in _retrieve
+    self._raise_error_fast()
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\joblib\parallel.py", line 1859, in _raise_error_fast
+    error_job.get_result(self.timeout)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\joblib\parallel.py", line 758, in get_result
+    return self._return_or_raise()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python312\Lib\site-packages\joblib\parallel.py", line 773, in _return_or_raise
+    raise self._result
+ValueError: Must have at least 1 validation dataset for early stopping.
+2025-12-06 10:40:10,862 - root - INFO - Configuration loaded from config.yaml
+2025-12-06 10:40:10,862 - root - INFO - Logging to logs\training_pipeline_20251206_104010.log
+2025-12-06 10:40:12,047 - root - INFO - TensorFlow random seed set to 42
+2025-12-06 10:40:13,190 - root - INFO - PyTorch random seed set to 42
+2025-12-06 10:40:13,190 - root - INFO - Reproducibility setup complete (seed=42)
+2025-12-06 10:40:13,190 - root - WARNING - No TensorFlow GPUs found
+2025-12-06 10:40:13,190 - root - WARNING - No PyTorch CUDA devices found
+2025-12-06 10:40:13,190 - root - INFO - Created directory: data\raw
+2025-12-06 10:40:13,190 - root - INFO - Created directory: data\processed
+2025-12-06 10:40:13,190 - root - INFO - Created directory: data\splits
+2025-12-06 10:40:13,190 - root - INFO - Created directory: models\trained_models
+2025-12-06 10:40:13,190 - root - INFO - Created directory: models\scalers
+2025-12-06 10:40:13,190 - root - INFO - Created directory: models\performance
+2025-12-06 10:40:13,190 - root - INFO - Created directory: logs
+2025-12-06 10:40:13,190 - root - INFO - Created directory: dashboard\uploads
+2025-12-06 10:40:13,190 - root - INFO - All directories created successfully
+2025-12-06 10:40:13,201 - root - INFO - Found 1951 CSV files in raw data directory
+2025-12-06 10:40:13,202 - root - INFO - Using all 20 CPU cores for parallel processing
+2025-12-06 10:40:13,202 - root - INFO - Enabled models: random_forest, xgboost, lightgbm, cnn_1d, ensemble
+2025-12-06 10:40:13,202 - root - WARNING - GPU enabled in config but no GPU detected. Will use CPU.
+2025-12-06 10:40:13,202 - root - INFO - Configuration validation passed
+2025-12-06 10:40:13,203 - root - INFO - ======================================================================
+2025-12-06 10:40:13,203 - root - INFO - MAFAULDA PREDICTIVE MAINTENANCE PIPELINE
+2025-12-06 10:40:13,203 - root - INFO - ======================================================================
+2025-12-06 10:40:13,203 - root - INFO - Configuration: config.yaml
+2025-12-06 10:40:13,203 - root - INFO - Random Seed: 42
+2025-12-06 10:40:13,204 - root - INFO - Enabled Models: ['random_forest', 'xgboost', 'lightgbm', 'cnn_1d', 'ensemble']
+2025-12-06 10:40:13,204 - root - INFO - GPU Enabled: True
+2025-12-06 10:40:13,204 - root - INFO - Steps to run: [1, 2, 3, 4]
+2025-12-06 10:40:13,204 - root - INFO - ======================================================================
+2025-12-06 10:40:13,204 - root - INFO - 
+======================================================================
+2025-12-06 10:40:13,204 - root - INFO - STEP 1: DATA PREPARATION
+2025-12-06 10:40:13,204 - root - INFO - ======================================================================
+2025-12-06 10:40:13,205 - root - INFO - Initialized MAFAULDADataLoader with data path: data\raw
+2025-12-06 10:40:13,205 - root - INFO - Loading existing data splits...
+2025-12-06 10:40:13,205 - root - INFO - Loading splits from data\splits\data_splits.pkl
+2025-12-06 10:40:13,206 - root - INFO - Loaded pickle from data\splits\data_splits.pkl
+2025-12-06 10:40:13,207 - root - INFO - Loaded splits: 1365 train, 293 val, 293 test
+2025-12-06 10:40:13,207 - root - INFO - Step 1 completed in 0s
+2025-12-06 10:40:13,207 - root - INFO - 
+======================================================================
+2025-12-06 10:40:13,208 - root - INFO - STEP 2: FEATURE ENGINEERING
+2025-12-06 10:40:13,208 - root - INFO - ======================================================================
+2025-12-06 10:40:13,208 - root - INFO - Features already extracted. Loading from disk...
+2025-12-06 10:40:13,208 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 10:40:13,208 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 10:40:13,208 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 10:40:13,208 - root - INFO - Step 2 completed in 0s
+2025-12-06 10:40:13,208 - root - INFO - 
+======================================================================
+2025-12-06 10:40:13,208 - root - INFO - STEP 3: MODEL TRAINING
+2025-12-06 10:40:13,208 - root - INFO - ======================================================================
+2025-12-06 10:40:13,208 - root - INFO - Loading preprocessed features...
+2025-12-06 10:40:13,241 - root - INFO - Training set: (1365, 100)
+2025-12-06 10:40:13,242 - root - INFO - Validation set: (293, 100)
+2025-12-06 10:40:13,242 - root - INFO - Initialized ModelTrainer
+2025-12-06 10:40:13,242 - root - INFO - 
+======================================================================
+2025-12-06 10:40:13,242 - root - INFO - TRAINING ALL MODELS
+2025-12-06 10:40:13,242 - root - INFO - ======================================================================
+2025-12-06 10:40:13,242 - root - INFO - Training Random Forest...
+2025-12-06 10:40:32,368 - root - INFO - No overfitting. Train: 1.0000, Val: 1.0000, Gap: 0.0000
+2025-12-06 10:40:32,368 - root - INFO - Random Forest trained in 19s
+2025-12-06 10:40:32,368 - root - INFO - Train accuracy: 1.0000, Val accuracy: 1.0000
+2025-12-06 10:40:32,368 - root - INFO - Training XGBoost...
+2025-12-06 10:40:32,368 - root - INFO - XGBoost version: 3.1.2
+2025-12-06 10:49:04,970 - root - INFO - No overfitting. Train: 1.0000, Val: 1.0000, Gap: 0.0000
+2025-12-06 10:49:04,970 - root - INFO - XGBoost trained in 8m 32s
+2025-12-06 10:49:04,970 - root - INFO - Train accuracy: 1.0000, Val accuracy: 1.0000
+2025-12-06 10:49:04,972 - root - INFO - Training LightGBM...
+2025-12-06 10:57:00,232 - root - INFO - No overfitting. Train: 1.0000, Val: 0.9966, Gap: 0.0034
+2025-12-06 10:57:00,232 - root - INFO - LightGBM trained in 7m 55s
+2025-12-06 10:57:00,232 - root - INFO - Train accuracy: 1.0000, Val accuracy: 0.9966
+2025-12-06 10:57:00,232 - root - INFO - Training Ensemble...
+2025-12-06 10:57:00,294 - root - INFO - Pre-fitting models for ensemble...
+2025-12-06 10:57:02,588 - root - INFO - Pre-fit xgboost
+2025-12-06 10:57:08,612 - root - INFO - No overfitting. Train: 1.0000, Val: 1.0000, Gap: 0.0000
+2025-12-06 10:57:08,613 - root - INFO - Ensemble trained in 8s
+2025-12-06 10:57:08,613 - root - INFO - Train accuracy: 1.0000, Val accuracy: 1.0000
+2025-12-06 10:57:08,613 - root - INFO - Models in ensemble: ['xgboost', 'lightgbm', 'random_forest']
+2025-12-06 10:57:08,613 - root - INFO - 
+======================================================================
+2025-12-06 10:57:08,613 - root - INFO - ALL MODELS TRAINED IN 16m 55s
+2025-12-06 10:57:08,613 - root - INFO - ======================================================================
+2025-12-06 10:57:08,613 - root - INFO - 
+TRAINING SUMMARY:
+2025-12-06 10:57:08,613 - root - INFO - ----------------------------------------------------------------------
+2025-12-06 10:57:08,613 - root - INFO - Model                Train Acc    Val Acc      Gap        Time           
+2025-12-06 10:57:08,613 - root - INFO - ----------------------------------------------------------------------
+2025-12-06 10:57:08,613 - root - INFO - random_forest        1.0000       1.0000       0.0000     19s            
+2025-12-06 10:57:08,613 - root - INFO - xgboost              1.0000       1.0000       0.0000     8m 32s         
+2025-12-06 10:57:08,613 - root - INFO - lightgbm             1.0000       0.9966       0.0034     7m 55s         
+2025-12-06 10:57:08,613 - root - INFO - ensemble             1.0000       1.0000       0.0000     8s             
+2025-12-06 10:57:08,613 - root - INFO - ----------------------------------------------------------------------
+2025-12-06 10:57:08,630 - root - INFO - Saved pickle to models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 10:57:08,653 - root - INFO - Saved pickle to models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 10:57:08,677 - root - INFO - Saved pickle to models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 10:57:08,776 - root - INFO - Saved pickle to models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 10:57:08,777 - root - INFO - Saved pickle to models\trained_models\training_history_20251206_105708.pkl
+2025-12-06 10:57:08,778 - root - INFO - Saved pickle to models\trained_models\best_params_20251206_105708.pkl
+2025-12-06 10:57:08,778 - root - INFO - Saved all models to models\trained_models
+2025-12-06 10:57:08,778 - root - INFO - Step 3 completed in 16m 55s
+2025-12-06 10:57:08,778 - root - INFO - 
+======================================================================
+2025-12-06 10:57:08,778 - root - INFO - STEP 4: MODEL EVALUATION
+2025-12-06 10:57:08,778 - root - INFO - ======================================================================
+2025-12-06 10:57:08,779 - root - INFO - Loading test features...
+2025-12-06 10:57:08,785 - root - INFO - Test set: (293, 100)
+2025-12-06 10:57:08,785 - root - INFO - Initialized ModelPredictor
+2025-12-06 10:57:08,789 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 10:57:08,891 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 10:57:08,891 - root - INFO - Loaded ensemble_20251206
+2025-12-06 10:57:08,896 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 10:57:08,896 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 10:57:08,907 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 10:57:08,908 - root - INFO - Loaded random_forest_20251206
+2025-12-06 10:57:08,946 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 10:57:08,946 - root - INFO - Loaded xgboost_20251206
+2025-12-06 10:57:08,946 - root - INFO - Loaded 4 models
+2025-12-06 10:57:08,946 - root - INFO - 
+Evaluating all models on test set...
+2025-12-06 10:57:08,947 - root - INFO - ======================================================================
+2025-12-06 10:57:08,947 - root - INFO - Evaluating ensemble_20251206 on test set...
+2025-12-06 10:57:09,234 - root - INFO -   Accuracy: 0.9966
+2025-12-06 10:57:09,234 - root - INFO -   F1 (macro): 0.9964
+2025-12-06 10:57:09,237 - root - INFO -   F1 (weighted): 0.9966
+2025-12-06 10:57:09,890 - root - INFO - Saved confusion matrix to models\performance\confusion_matrix_ensemble_20251206_test.png
+2025-12-06 10:57:09,899 - root - INFO - Evaluating lightgbm_20251206 on test set...
+2025-12-06 10:57:09,950 - root - INFO -   Accuracy: 0.9966
+2025-12-06 10:57:09,950 - root - INFO -   F1 (macro): 0.9964
+2025-12-06 10:57:09,950 - root - INFO -   F1 (weighted): 0.9966
+2025-12-06 10:57:10,357 - root - INFO - Saved confusion matrix to models\performance\confusion_matrix_lightgbm_20251206_test.png
+2025-12-06 10:57:10,367 - root - INFO - Evaluating random_forest_20251206 on test set...
+2025-12-06 10:57:10,488 - root - INFO -   Accuracy: 0.9966
+2025-12-06 10:57:10,488 - root - INFO -   F1 (macro): 0.9964
+2025-12-06 10:57:10,488 - root - INFO -   F1 (weighted): 0.9966
+2025-12-06 10:57:10,865 - root - INFO - Saved confusion matrix to models\performance\confusion_matrix_random_forest_20251206_test.png
+2025-12-06 10:57:10,869 - root - INFO - Evaluating xgboost_20251206 on test set...
+2025-12-06 10:57:11,044 - root - INFO -   Accuracy: 0.9898
+2025-12-06 10:57:11,045 - root - INFO -   F1 (macro): 0.9894
+2025-12-06 10:57:11,046 - root - INFO -   F1 (weighted): 0.9898
+2025-12-06 10:57:11,434 - root - INFO - Saved confusion matrix to models\performance\confusion_matrix_xgboost_20251206_test.png
+2025-12-06 10:57:11,442 - root - INFO - 
+MODEL COMPARISON (TEST SET):
+2025-12-06 10:57:11,444 - root - INFO - ------------------------------------------------------------------------------------------
+2025-12-06 10:57:11,444 - root - INFO - Model                Accuracy     F1-Macro     F1-Weighted  Precision    Recall      
+2025-12-06 10:57:11,445 - root - INFO - ------------------------------------------------------------------------------------------
+2025-12-06 10:57:11,445 - root - INFO - ensemble_20251206    0.9966       0.9964       0.9966       0.9966       0.9964      
+2025-12-06 10:57:11,445 - root - INFO - lightgbm_20251206    0.9966       0.9964       0.9966       0.9966       0.9964      
+2025-12-06 10:57:11,445 - root - INFO - random_forest_20251206 0.9966       0.9964       0.9966       0.9966       0.9964      
+2025-12-06 10:57:11,446 - root - INFO - xgboost_20251206     0.9898       0.9894       0.9898       0.9899       0.9895      
+2025-12-06 10:57:11,446 - root - INFO - ------------------------------------------------------------------------------------------
+2025-12-06 10:57:11,447 - root - INFO - Saved pickle to models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 10:57:11,449 - root - INFO - Saved JSON to models\performance\evaluation_report_20251206_105711.json
+2025-12-06 10:57:11,449 - root - INFO - Saved evaluation results to models\performance
+2025-12-06 10:57:12,002 - root - INFO - Created summary plots
+2025-12-06 10:57:12,002 - root - INFO - 
+======================================================================
+2025-12-06 10:57:12,002 - root - INFO - FINAL RESULTS
+2025-12-06 10:57:12,002 - root - INFO - ======================================================================
+2025-12-06 10:57:12,002 - root - INFO - Best Model: ensemble_20251206
+2025-12-06 10:57:12,002 - root - INFO - Best F1-Macro: 0.9964
+2025-12-06 10:57:12,002 - root - INFO - 
+Business Metrics:
+2025-12-06 10:57:12,002 - root - INFO -   False Negative Rate: 0.36%
+2025-12-06 10:57:12,002 - root - INFO -   False Positive Rate: 0.36%
+2025-12-06 10:57:12,002 - root - INFO - ======================================================================
+
+2025-12-06 10:57:12,002 - root - INFO - Step 4 completed in 3s
+2025-12-06 10:57:12,002 - root - INFO - 
+======================================================================
+2025-12-06 10:57:12,002 - root - INFO - PIPELINE COMPLETED SUCCESSFULLY!
+2025-12-06 10:57:12,002 - root - INFO - ======================================================================
+2025-12-06 10:57:12,002 - root - INFO - Total Time: 16m 58s
+2025-12-06 10:57:12,002 - root - INFO - Results saved to: models\performance
+2025-12-06 10:57:12,002 - root - INFO - ======================================================================
+2025-12-06 11:03:37,065 - root - INFO - Configuration loaded from config.yaml
+2025-12-06 11:04:12,719 - root - INFO - Initialized ModelPredictor
+2025-12-06 11:04:12,719 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 11:04:14,527 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 11:04:14,527 - root - INFO - Loaded ensemble_20251206
+2025-12-06 11:04:14,532 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 11:04:14,532 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 11:04:14,548 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 11:04:14,548 - root - INFO - Loaded random_forest_20251206
+2025-12-06 11:04:14,578 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 11:04:14,578 - root - INFO - Loaded xgboost_20251206
+2025-12-06 11:04:14,578 - root - INFO - Loaded 4 models
+2025-12-06 11:04:14,580 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 11:04:14,580 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 11:04:14,580 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 11:04:14,582 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 11:07:07,809 - root - INFO - Configuration loaded from config.yaml
+2025-12-06 11:07:07,815 - root - INFO - Initialized ModelPredictor
+2025-12-06 11:07:07,816 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 11:07:09,636 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 11:07:09,636 - root - INFO - Loaded ensemble_20251206
+2025-12-06 11:07:09,642 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 11:07:09,642 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 11:07:09,658 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 11:07:09,659 - root - INFO - Loaded random_forest_20251206
+2025-12-06 11:07:09,704 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 11:07:09,704 - root - INFO - Loaded xgboost_20251206
+2025-12-06 11:07:09,704 - root - INFO - Loaded 4 models
+2025-12-06 11:07:09,705 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 11:07:09,705 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 11:07:09,705 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 11:09:53,640 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 11:36:53,595 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 12:25:50,130 - root - INFO - Initialized ModelPredictor
+2025-12-06 12:25:50,130 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 12:25:50,268 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 12:25:50,268 - root - INFO - Loaded ensemble_20251206
+2025-12-06 12:25:50,272 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 12:25:50,272 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 12:25:50,280 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 12:25:50,280 - root - INFO - Loaded random_forest_20251206
+2025-12-06 12:25:50,318 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 12:25:50,318 - root - INFO - Loaded xgboost_20251206
+2025-12-06 12:25:50,320 - root - INFO - Loaded 4 models
+2025-12-06 12:25:50,320 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 12:25:50,320 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 12:25:50,320 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 12:25:50,322 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 12:52:22,531 - root - INFO - Configuration loaded from config.yaml
+2025-12-06 12:52:31,581 - root - INFO - Initialized ModelPredictor
+2025-12-06 12:52:31,583 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 12:52:33,441 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 12:52:33,441 - root - INFO - Loaded ensemble_20251206
+2025-12-06 12:52:33,446 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 12:52:33,446 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 12:52:33,464 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 12:52:33,464 - root - INFO - Loaded random_forest_20251206
+2025-12-06 12:52:33,501 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 12:52:33,501 - root - INFO - Loaded xgboost_20251206
+2025-12-06 12:52:33,501 - root - INFO - Loaded 4 models
+2025-12-06 12:52:33,503 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 12:52:33,503 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 12:52:33,503 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 12:52:33,506 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 13:29:21,885 - root - INFO - Initialized ModelPredictor
+2025-12-06 13:29:21,892 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 13:29:22,000 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 13:29:22,000 - root - INFO - Loaded ensemble_20251206
+2025-12-06 13:29:22,005 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 13:29:22,005 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 13:29:22,020 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 13:29:22,020 - root - INFO - Loaded random_forest_20251206
+2025-12-06 13:29:22,057 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 13:29:22,057 - root - INFO - Loaded xgboost_20251206
+2025-12-06 13:29:22,057 - root - INFO - Loaded 4 models
+2025-12-06 13:29:22,059 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 13:29:22,059 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 13:29:22,059 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 13:29:22,061 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 13:30:07,236 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 14:17:01,928 - root - INFO - Configuration loaded from config.yaml
+2025-12-06 14:20:29,554 - root - INFO - Initialized ModelPredictor
+2025-12-06 14:20:29,555 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 14:20:31,377 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 14:20:31,377 - root - INFO - Loaded ensemble_20251206
+2025-12-06 14:20:31,382 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 14:20:31,383 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 14:20:31,392 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 14:20:31,392 - root - INFO - Loaded random_forest_20251206
+2025-12-06 14:20:31,419 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 14:20:31,419 - root - INFO - Loaded xgboost_20251206
+2025-12-06 14:20:31,419 - root - INFO - Loaded 4 models
+2025-12-06 14:20:31,419 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 14:20:31,421 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 14:20:31,421 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 14:20:31,421 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 14:22:02,393 - root - INFO - Initialized ModelPredictor
+2025-12-06 14:22:02,393 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 14:22:02,537 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 14:22:02,537 - root - INFO - Loaded ensemble_20251206
+2025-12-06 14:22:02,542 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 14:22:02,542 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 14:22:02,559 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 14:22:02,559 - root - INFO - Loaded random_forest_20251206
+2025-12-06 14:22:02,600 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 14:22:02,600 - root - INFO - Loaded xgboost_20251206
+2025-12-06 14:22:02,600 - root - INFO - Loaded 4 models
+2025-12-06 14:22:02,601 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 14:22:02,601 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 14:22:02,601 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 14:22:02,603 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 14:22:51,405 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 14:22:55,952 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 14:22:58,052 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 14:22:59,703 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 14:23:09,361 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 14:23:11,044 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 14:23:32,847 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 15:27:15,647 - root - INFO - Initialized ModelPredictor
+2025-12-06 15:27:15,647 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 15:27:15,760 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 15:27:15,760 - root - INFO - Loaded ensemble_20251206
+2025-12-06 15:27:15,764 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 15:27:15,764 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 15:27:15,775 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 15:27:15,775 - root - INFO - Loaded random_forest_20251206
+2025-12-06 15:27:15,803 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 15:27:15,803 - root - INFO - Loaded xgboost_20251206
+2025-12-06 15:27:15,803 - root - INFO - Loaded 4 models
+2025-12-06 15:27:15,803 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 15:27:15,803 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 15:27:15,803 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 15:27:15,805 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 15:41:50,182 - root - INFO - Initialized ModelPredictor
+2025-12-06 15:41:50,184 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 15:41:50,304 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 15:41:50,304 - root - INFO - Loaded ensemble_20251206
+2025-12-06 15:41:50,309 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 15:41:50,309 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 15:41:50,326 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 15:41:50,326 - root - INFO - Loaded random_forest_20251206
+2025-12-06 15:41:50,363 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 15:41:50,363 - root - INFO - Loaded xgboost_20251206
+2025-12-06 15:41:50,363 - root - INFO - Loaded 4 models
+2025-12-06 15:41:50,363 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 15:41:50,363 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 15:41:50,365 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 15:41:50,365 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 15:41:58,916 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 15:42:15,228 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 15:42:19,998 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 16:01:46,935 - root - INFO - Configuration loaded from config.yaml
+2025-12-06 16:03:34,774 - root - INFO - Initialized ModelPredictor
+2025-12-06 16:03:34,774 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 16:03:36,641 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 16:03:36,642 - root - INFO - Loaded ensemble_20251206
+2025-12-06 16:03:36,646 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 16:03:36,646 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 16:03:36,656 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 16:03:36,656 - root - INFO - Loaded random_forest_20251206
+2025-12-06 16:03:36,685 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 16:03:36,685 - root - INFO - Loaded xgboost_20251206
+2025-12-06 16:03:36,685 - root - INFO - Loaded 4 models
+2025-12-06 16:03:36,687 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 16:03:36,687 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 16:03:36,687 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 16:03:36,689 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 16:08:24,049 - root - INFO - Configuration loaded from config.yaml
+2025-12-06 16:08:25,081 - root - INFO - Initialized ModelPredictor
+2025-12-06 16:08:25,081 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 16:08:26,980 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 16:08:26,981 - root - INFO - Loaded ensemble_20251206
+2025-12-06 16:08:26,986 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 16:08:26,986 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 16:08:27,003 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 16:08:27,003 - root - INFO - Loaded random_forest_20251206
+2025-12-06 16:08:27,037 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 16:08:27,037 - root - INFO - Loaded xgboost_20251206
+2025-12-06 16:08:27,037 - root - INFO - Loaded 4 models
+2025-12-06 16:08:27,039 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 16:08:27,039 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 16:08:27,039 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 16:10:21,916 - root - INFO - Initialized ModelPredictor
+2025-12-06 16:10:21,916 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 16:10:22,025 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 16:10:22,025 - root - INFO - Loaded ensemble_20251206
+2025-12-06 16:10:22,029 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 16:10:22,030 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 16:10:22,037 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 16:10:22,039 - root - INFO - Loaded random_forest_20251206
+2025-12-06 16:10:22,065 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 16:10:22,065 - root - INFO - Loaded xgboost_20251206
+2025-12-06 16:10:22,065 - root - INFO - Loaded 4 models
+2025-12-06 16:10:22,067 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 16:10:22,067 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 16:10:22,067 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 16:10:22,068 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 16:41:40,418 - root - INFO - Initialized ModelPredictor
+2025-12-06 16:41:40,418 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 16:41:40,563 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 16:41:40,563 - root - INFO - Loaded ensemble_20251206
+2025-12-06 16:41:40,568 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 16:41:40,568 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 16:41:40,584 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 16:41:40,584 - root - INFO - Loaded random_forest_20251206
+2025-12-06 16:41:40,624 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 16:41:40,626 - root - INFO - Loaded xgboost_20251206
+2025-12-06 16:41:40,626 - root - INFO - Loaded 4 models
+2025-12-06 16:41:40,626 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 16:41:40,626 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 16:41:40,626 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 16:41:40,628 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 16:51:52,609 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 16:53:34,245 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 16:53:41,067 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 16:53:50,417 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 17:10:22,511 - root - INFO - Configuration loaded from config.yaml
+2025-12-06 17:10:22,549 - root - INFO - Initialized ModelPredictor
+2025-12-06 17:10:22,552 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 17:10:25,675 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 17:10:25,677 - root - INFO - Loaded ensemble_20251206
+2025-12-06 17:10:25,781 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 17:10:25,782 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 17:10:26,083 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 17:10:26,085 - root - INFO - Loaded random_forest_20251206
+2025-12-06 17:10:26,204 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 17:10:26,205 - root - INFO - Loaded xgboost_20251206
+2025-12-06 17:10:26,205 - root - INFO - Loaded 4 models
+2025-12-06 17:10:26,208 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 17:10:26,210 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 17:10:26,210 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 17:10:47,072 - root - INFO - Initialized ModelPredictor
+2025-12-06 17:10:47,087 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 17:10:47,565 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 17:10:47,565 - root - INFO - Loaded ensemble_20251206
+2025-12-06 17:10:47,582 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 17:10:47,582 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 17:10:47,638 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 17:10:47,638 - root - INFO - Loaded random_forest_20251206
+2025-12-06 17:10:47,753 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 17:10:47,754 - root - INFO - Loaded xgboost_20251206
+2025-12-06 17:10:47,754 - root - INFO - Loaded 4 models
+2025-12-06 17:10:47,756 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 17:10:47,756 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 17:10:47,758 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 17:10:47,764 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 17:15:53,611 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 17:16:16,536 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 17:16:26,285 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 17:20:34,078 - root - INFO - Configuration loaded from config.yaml
+2025-12-06 17:20:34,083 - root - INFO - Initialized ModelPredictor
+2025-12-06 17:20:34,087 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 17:20:35,874 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 17:20:35,874 - root - INFO - Loaded ensemble_20251206
+2025-12-06 17:20:35,878 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 17:20:35,879 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 17:20:35,896 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 17:20:35,896 - root - INFO - Loaded random_forest_20251206
+2025-12-06 17:20:35,937 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 17:20:35,937 - root - INFO - Loaded xgboost_20251206
+2025-12-06 17:20:35,937 - root - INFO - Loaded 4 models
+2025-12-06 17:20:35,937 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 17:20:35,939 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 17:20:35,939 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 17:24:06,194 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 18:04:27,285 - root - INFO - Initialized ModelPredictor
+2025-12-06 18:04:27,287 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 18:04:27,714 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 18:04:27,714 - root - INFO - Loaded ensemble_20251206
+2025-12-06 18:04:27,717 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 18:04:27,717 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 18:04:27,783 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 18:04:27,783 - root - INFO - Loaded random_forest_20251206
+2025-12-06 18:04:27,904 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 18:04:27,904 - root - INFO - Loaded xgboost_20251206
+2025-12-06 18:04:27,904 - root - INFO - Loaded 4 models
+2025-12-06 18:04:27,904 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 18:04:27,914 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 18:04:27,914 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 18:04:27,918 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 18:07:05,563 - root - INFO - Initialized ModelPredictor
+2025-12-06 18:07:05,563 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 18:07:05,960 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 18:07:05,960 - root - INFO - Loaded ensemble_20251206
+2025-12-06 18:07:05,980 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 18:07:05,980 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 18:07:06,027 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 18:07:06,027 - root - INFO - Loaded random_forest_20251206
+2025-12-06 18:07:06,142 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 18:07:06,142 - root - INFO - Loaded xgboost_20251206
+2025-12-06 18:07:06,142 - root - INFO - Loaded 4 models
+2025-12-06 18:07:06,157 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 18:07:06,159 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 18:07:06,159 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
+2025-12-06 18:07:06,159 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 18:21:14,411 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 18:21:46,130 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 18:21:50,196 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 18:21:55,593 - root - INFO - Loaded pickle from models\performance\evaluation_results_20251206_105711.pkl
+2025-12-06 18:26:55,179 - root - INFO - Configuration loaded from config.yaml
+2025-12-06 18:26:55,212 - root - INFO - Initialized ModelPredictor
+2025-12-06 18:26:55,216 - root - INFO - Loading models with timestamp: 105708
+2025-12-06 18:26:58,354 - root - INFO - Loaded pickle from models\trained_models\ensemble_20251206_105708.pkl
+2025-12-06 18:26:58,356 - root - INFO - Loaded ensemble_20251206
+2025-12-06 18:26:58,579 - root - INFO - Loaded pickle from models\trained_models\lightgbm_20251206_105708.pkl
+2025-12-06 18:26:58,580 - root - INFO - Loaded lightgbm_20251206
+2025-12-06 18:26:58,659 - root - INFO - Loaded pickle from models\trained_models\random_forest_20251206_105708.pkl
+2025-12-06 18:26:58,659 - root - INFO - Loaded random_forest_20251206
+2025-12-06 18:26:58,778 - root - INFO - Loaded pickle from models\trained_models\xgboost_20251206_105708.pkl
+2025-12-06 18:26:58,779 - root - INFO - Loaded xgboost_20251206
+2025-12-06 18:26:58,780 - root - INFO - Loaded 4 models
+2025-12-06 18:26:58,782 - root - INFO - Initialized FeatureEngineeringPipeline
+2025-12-06 18:26:58,785 - root - INFO - Loaded pickle from models\scalers\feature_pipeline.pkl
+2025-12-06 18:26:58,786 - root - INFO - Loaded feature engineering pipeline from models\scalers\feature_pipeline.pkl
