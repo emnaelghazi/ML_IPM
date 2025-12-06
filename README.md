@@ -401,7 +401,7 @@ All code follows:
 
 ##  Next Steps (Post-Implementation)
 
-1. **Place your MAFAULDA data** in `data/raw/`
+1. **Place your MAFAULDA data** in `data/raw/`(download from https://www02.smt.ufrj.br/~offshore/mfs/page_01.html)
 2. **Run setup verification**: `python setup.py`
 3. **Configure GPU** (if available): See GPU_SETUP.md
 4. **Train models**: `python train_pipeline.py` (one-time, 4-6 hours)
