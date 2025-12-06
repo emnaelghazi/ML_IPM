@@ -17,21 +17,21 @@
    - Dashboard (Streamlit)
    - Feature engineering (PyWavelets, SciPy)
 
-3. **src/config.py** (370 lines) - Configuration manager
+3. **src/config.py**  - Configuration manager
    - YAML loading and validation
    - Path management
    - GPU setup
    - Reproducibility (random seeds)
    - Singleton pattern
 
-4. **src/utils.py** (450 lines) - Utility functions
+4. **src/utils.py** - Utility functions
    - File I/O (pickle, JSON, CSV)
    - Metrics calculation (accuracy, F1, confusion matrix)
    - Plotting (confusion matrix, learning curves)
    - Fault parsing from paths
    - Memory monitoring
 
-5. **src/data_loader.py** (420 lines) - Data loading & stratified splitting
+5. **src/data_loader.py** - Data loading & stratified splitting
    - File discovery and parsing
    - **File-level stratified splitting** (anti-overfitting!)
    - Split validation (no leakage)
@@ -42,12 +42,7 @@
    - Easy imports
    - Version info
 
-7. **GPU_SETUP.md** - Complete GPU configuration guide
-   - NVIDIA RTX 4050 specific instructions
-   - TensorFlow GPU setup
-   - XGBoost/LightGBM GPU
-   - Troubleshooting
-   - Performance tips
+
 
 8. **README.md** - Comprehensive project documentation
    - Quick start guide
@@ -56,9 +51,9 @@
    - Anti-overfitting measures
    - Expected results
 
-### Phase 2: Feature Engineering (1 file) 
+### Phase 2: Feature Engineering 
 
-9. **src/feature_engineer.py** (620 lines) - Complete feature extraction
+9. **src/feature_engineer.py**  - Complete feature extraction
    - **Time-domain features** (14 features per sensor)
      - Mean, Std, Min, Max, Range, IQR
      - Skewness, Kurtosis
@@ -80,7 +75,7 @@
 
 ### Phase 3: Model Training (4 files) 
 
-10. **src/model_trainer.py** (450 lines) - ML model training
+10. **src/model_trainer.py**  - ML model training
     - **Random Forest** with hyperparameter tuning
     - **XGBoost** with GPU acceleration & early stopping
     - **LightGBM** with GPU acceleration
@@ -89,7 +84,7 @@
     - Overfitting detection & alerts
     - Model persistence
 
-11. **src/cnn_trainer.py** (380 lines) - 1D CNN training
+11. **src/cnn_trainer.py**  - 1D CNN training
     - Custom data generator (memory-efficient)
     - Multi-layer 1D CNN architecture
     - Batch normalization & dropout
@@ -98,7 +93,7 @@
     - TensorFlow/Keras implementation
     - GPU optimization
 
-12. **src/model_predictor.py** (380 lines) - Prediction & evaluation
+12. **src/model_predictor.py** - Prediction & evaluation
     - Model loading
     - Batch prediction
     - Comprehensive metrics (accuracy, precision, recall, F1)
@@ -108,7 +103,7 @@
     - SHAP explanations
     - Report generation
 
-13. **train_pipeline.py** (350 lines) - End-to-end orchestration
+13. **train_pipeline.py**  - End-to-end orchestration
     - Complete pipeline automation
     - Step-by-step execution
     - Progress tracking
@@ -116,9 +111,9 @@
     - Error handling
     - Results summarization
 
-### Phase 4: Dashboard & Notebooks (5 files) 
+### Phase 4: Dashboard & Notebooks 
 
-14. **dashboard/app.py** (650 lines) - Intelligent Streamlit dashboard
+14. **dashboard/app.py** - Intelligent Streamlit dashboard
     - **Overview Page**
       - System capabilities
       - Fault class descriptions
@@ -139,7 +134,7 @@
       - Actionable insights with timeframes
     
 
-15. **dashboard/style.css** (400 lines) - Professional custom styling
+15. **dashboard/style.css**  - Professional custom styling
     - Blue/white theme
     - Gradient headers
     - Status cards (good/warning/critical)
@@ -150,26 +145,9 @@
     - Animations
     - Print styles
 
-16. **notebooks/01_data_exploration.ipynb** - Comprehensive EDA
-    - Dataset overview
-    - Class distribution analysis
-    - Sensor signal visualization
-    - Frequency spectrum analysis
-    - Statistical feature comparison
-    - Data split validation
+### Phase 5: Documentation & Setup (4 files) 
 
-17. **notebooks/04_model_evaluation.ipynb** - Results analysis
-    - Model performance comparison
-    - Confusion matrix analysis
-    - Per-class metrics
-    - Business metrics & cost analysis
-    - Critical fault detection performance
-    - Confidence calibration
-    - Actionable recommendations
-
-### Phase 5: Documentation & Setup (4 files) ✅
-
-18. **setup.py** (240 lines) - Setup verification script
+18. **setup.py** - Setup verification script
     - Python version check
     - Package installation verification
     - TensorFlow & GPU detection
@@ -193,28 +171,23 @@
     - Anti-overfitting measures
     - Usage instructions
 
-21. **notebooks/02_feature_engineering.ipynb** (stub)
-    - Feature extraction demonstration
-    - Feature importance analysis
-
----
 
 ## Anti-Overfitting Measures Implemented
 
-### 1. Data Splitting ✅
+### 1. Data Splitting 
 - **File-level splitting** (never split rows from same CSV)
 - Stratified sampling (maintains class distribution)
 - 70/15/15 train/val/test split
 - Overlap validation (no file appears twice)
 - Class representation checks
 
-### 2. Feature Engineering ✅
+### 2. Feature Engineering 
 - Scalers fit on training data only
 - No information leakage from test set
 - Feature selection on training only
 - Cross-validation within training set
 
-### 3. Model Training ✅
+### 3. Model Training 
 - 5-fold stratified cross-validation
 - Nested CV for hyperparameter tuning
 - Early stopping on validation set
@@ -223,7 +196,7 @@
 - L2 regularization
 - Tree depth limits
 
-### 4. Evaluation ✅
+### 4. Evaluation 
 - Test set used only once
 - Train/val/test gap monitoring
 - Overfitting threshold: 5%
